@@ -34,7 +34,7 @@ resource "aws_subnet" "public_subnet_1a" {
 
 resource "aws_subnet" "public_subnet_1c" {
   vpc_id                  = aws_vpc.vpc.id #上のVPCの設定を参照する。参照する情報がresourceの場合はブロックタイプを省略可
-  availability_zone       = "ap-northeast-1a"
+  availability_zone       = "ap-northeast-1c"
   cidr_block              = "192.168.2.0/24"
   map_public_ip_on_launch = true #配置するEC2に対してパブリックIPを割り当てる
 
@@ -62,7 +62,7 @@ resource "aws_subnet" "private_subnet_1a" {
 
 resource "aws_subnet" "private_subnet_1c" {
   vpc_id                  = aws_vpc.vpc.id #上のVPCの設定を参照する。参照する情報がresourceの場合はブロックタイプを省略可
-  availability_zone       = "ap-northeast-1a"
+  availability_zone       = "ap-northeast-1c"
   cidr_block              = "192.168.4.0/24"
   map_public_ip_on_launch = false #配置するEC2に対してパブリックIPを割り当てる
 
@@ -133,6 +133,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
+# igw設定時にルートテーブルにルーティング情報を紐付け
 resource "aws_route" "public_rt_igw" {
   route_table_id         = aws_route_table.public_rt.id
   destination_cidr_block = "0.0.0.0/0"
