@@ -9,6 +9,13 @@ terraform {
       version = "~>3.0"
     }
   }
+  # (keyで設定した)tfstateファイルの保存先を変更する
+  backend "s3" {
+    bucket  = "tastylog-tfstate-bucket-knaatp0990"
+    key     = "tastylog-dev.tfstate"
+    region  = "ap-northeast-1"
+    profile = "terraform"
+  }
 }
 
 provider "aws" {

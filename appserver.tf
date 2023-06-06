@@ -17,7 +17,7 @@ resource "aws_key_pair" "keypair" {
 # --------------------------
 # create EC2 instance
 # --------------------------
-resource "aws_instance" "app_server" {
+resource "aws_instance" "app_server2" {
   ami                         = data.aws_ami.app.id
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.public_subnet_1a.id
