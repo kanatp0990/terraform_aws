@@ -47,42 +47,42 @@ resource "aws_db_subnet_group" "mysql_standalone_subnetgroup" {
 # RDS instance
 # ---------------------------------------------
 # 記載後、terraform initが必要
-resource "random_string" "db_password" { 
+resource "random_string" "db_password" {
   length  = 16
   special = false
 }
 
 resource "aws_db_instance" "mysql_standalone" {
-  engine = "mysql"
+  engine         = "mysql"
   engine_version = "8.0.32"
 
   identifier = "${var.project}-${var.environment}-mysql-standalone"
-  username = "admin"
-  password = random_string.db_password.result
+  username   = "admin"
+  password   = random_string.db_password.result
 
-  instance_class = "db.t2.micro"
-  allocated_storage = 20
+  instance_class        = "db.t2.micro"
+  allocated_storage     = 20
   max_allocated_storage = 50
-  storage_type = "gp2"
-  storage_encrypted = false
+  storage_type          = "gp2"
+  storage_encrypted     = false
 
-  availability_zone = "ap-northeast-1a"
-  db_subnet_group_name = aws_db_subnet_group.mysql_standalone_subnetgroup.name
-  vpc_security_group_ids = [ aws_security_group.db_sg.id ]
-  publicly_accessible = false
-  port = 3306
+  availability_zone      = "ap-northeast-1a"
+  db_subnet_group_name   = aws_db_subnet_group.mysql_standalone_subnetgroup.name
+  vpc_security_group_ids = [aws_security_group.db_sg.id]
+  publicly_accessible    = false
+  port                   = 3306
 
-  name = "tastylog"
+  name                 = "tastylog"
   parameter_group_name = aws_db_parameter_group.mysql_standalone_parametergroup.name
-  option_group_name = aws_db_option_group.mysql_standalone_optiongroup.name
+  option_group_name    = aws_db_option_group.mysql_standalone_optiongroup.name
 
-  backup_window = "04:00-05:00"
-  backup_retention_period = 7 # day
-  maintenance_window = "Mon:05:00-Mon:08:00"
+  backup_window              = "04:00-05:00"
+  backup_retention_period    = 7 # day
+  maintenance_window         = "Mon:05:00-Mon:08:00"
   auto_minor_version_upgrade = false
 
-  deletion_protection = true
-  skip_final_snapshot = false
+  deletion_protection = false
+  skip_final_snapshot = true
 
   apply_immediately = true
 
@@ -90,5 +90,5 @@ resource "aws_db_instance" "mysql_standalone" {
     Name    = "${var.project}-${var.environment}-mysql_standalone"
     Project = var.project
     Env     = var.environment
-  }  
+  }
 }

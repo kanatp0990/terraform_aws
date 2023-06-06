@@ -39,7 +39,8 @@ resource "aws_security_group_rule" "web_out_tcp3000" {
   protocol                 = "tcp"
   from_port                = 3000
   to_port                  = 3000
-  source_security_group_id = aws_security_group.app_sg.id
+  source_security_group_id = aws_security_group.app_sg.id # 特定のセキュリティグループへの許可は"source_security_group_id"を使用する
+  
 }
 
 # app securuty group
