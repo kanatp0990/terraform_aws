@@ -77,17 +77,19 @@ resource "aws_subnet" "private_subnet_1c" {
 # ---------------------------------------------
 # Route Table
 # ---------------------------------------------
+#ルートテーブルの作成
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name    = "${var.project}-${var.environment}-public-rt"
+    Name    = "${var.project}-${var.environment}-public-rt" #コンソール上に出てくる名前
     Project = var.project
     Env     = var.environment
     Type    = "public"
   }
 }
 
+# ルートテーブルと紐付けるサブネットの関連づけ
 resource "aws_route_table_association" "public_rt_1a" {
   route_table_id = aws_route_table.public_rt.id
   subnet_id      = aws_subnet.public_subnet_1a.id
@@ -132,7 +134,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-# igw設定時にルートテーブルにルーティング情報を紐付け
+# ルートテーブルとインターネットゲートウェイの関連づけ
 resource "aws_route" "public_rt_igw" {
   route_table_id         = aws_route_table.public_rt.id
   destination_cidr_block = "0.0.0.0/0"

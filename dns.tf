@@ -18,6 +18,9 @@ resource "aws_route53_record" "aws_route53_record" {
   zone_id = aws_route53_zone.route53_zone.id
   name    = "dev-elb.${var.domain}"
   type    = "A"
+
+  # albに接続する場合などawsリソースに接続する場合のみ使用可
+  # 外から見たら通常のAレコード
   alias {
     name                   = aws_lb.alb.dns_name
     zone_id                = aws_lb.alb.zone_id

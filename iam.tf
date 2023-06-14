@@ -1,3 +1,4 @@
+# EC2との関連付ける信頼ポリシーを定義(ポリシードキュメント)
 data "aws_iam_policy_document" "ec2_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -12,16 +13,17 @@ data "aws_iam_policy_document" "ec2_assume_role" {
 # --------------------------
 # IAM role
 # --------------------------
+#IAM role作成
+resource "aws_iam_role" "app_iam_role" {
+  name               = "${var.project}-${var.environment}-app-iam-role"
+  assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
+}
+
 #インスタンスプロフィールを作成
 #EC2へのアタッチはインスタンスプロフィールを通して行う(IAMロールを直接アタッチすることはできない)
 resource "aws_iam_instance_profile" "app_ec2_profile" {
   name = aws_iam_role.app_iam_role.name #作成したIAMロールと名称を同じにする
   role = aws_iam_role.app_iam_role.name
-}
-
-resource "aws_iam_role" "app_iam_role" {
-  name               = "${var.project}-${var.environment}-app-iam-role"
-  assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
 }
 
 # --------------------------
