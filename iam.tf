@@ -1,4 +1,5 @@
 # EC2との関連付ける信頼ポリシーを定義(ポリシードキュメント)
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document
 data "aws_iam_policy_document" "ec2_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
